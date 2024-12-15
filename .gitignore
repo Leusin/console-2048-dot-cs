@@ -1,0 +1,62 @@
+# Ignore build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Dd]ist/
+[Dd]istPublic/
+[D]ebug/
+[D]ebugPublic/
+
+# User-specific files
+.vs/
+.vs2019/
+.vs2017/
+.vscode/
+.idea/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET
+# 7.x or newer
+# 6.x or older
+wwwroot/
+
+# JetBrains Rider
+.idea/
+
+# Rider specific files
+.idea/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Local history for Rider
+.idea/.idea.lock
+.idea/.idea.history
