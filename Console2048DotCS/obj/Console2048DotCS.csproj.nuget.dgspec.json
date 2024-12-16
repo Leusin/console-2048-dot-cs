@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Users\\Johnson\\Documents\\GitHub\\console-2048-dot-cs\\Console2048DotCS\\Console2048DotCS.csproj": {}
+    "C:\\Users\\user\\Documents\\GitHub\\console-2048-dot-cs\\Console2048DotCS\\Console2048DotCS.csproj": {}
   },
   "projects": {
-    "D:\\Users\\Johnson\\Documents\\GitHub\\console-2048-dot-cs\\Console2048DotCS\\Console2048DotCS.csproj": {
+    "C:\\Users\\user\\Documents\\GitHub\\console-2048-dot-cs\\Console2048DotCS\\Console2048DotCS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Users\\Johnson\\Documents\\GitHub\\console-2048-dot-cs\\Console2048DotCS\\Console2048DotCS.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Documents\\GitHub\\console-2048-dot-cs\\Console2048DotCS\\Console2048DotCS.csproj",
         "projectName": "Console2048DotCS",
-        "projectPath": "D:\\Users\\Johnson\\Documents\\GitHub\\console-2048-dot-cs\\Console2048DotCS\\Console2048DotCS.csproj",
+        "projectPath": "C:\\Users\\user\\Documents\\GitHub\\console-2048-dot-cs\\Console2048DotCS\\Console2048DotCS.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "D:\\Users\\Johnson\\Documents\\GitHub\\console-2048-dot-cs\\Console2048DotCS\\obj\\",
+        "outputPath": "C:\\Users\\user\\Documents\\GitHub\\console-2048-dot-cs\\Console2048DotCS\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -34,11 +38,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -60,7 +59,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
