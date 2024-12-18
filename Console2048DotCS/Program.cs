@@ -1,14 +1,14 @@
 ﻿using Console2048DotCS;
 
-var board = new Board();
+var game = new Game();
 
-board.InitGame();
-board.Rander();
+game.InitGame();
+game.Rander();
 
 Console.CursorVisible = false; // 커서를 숨깁니다
 
 while (true)
 {
-    board.Update();
-    board.Rander();
+    game.Update();
+    game.Rander();
 }

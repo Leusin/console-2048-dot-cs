@@ -7,20 +7,8 @@
 
         private Random _rand = new Random();
 
-        private UI _ui = new UI();
-        private KeyControl _keyControl = new KeyControl();
-
-
-        public void InitGame()
+        public void InitBoard()
         {
-            _keyControl.RegisterKey(ConsoleKey.UpArrow);
-            _keyControl.RegisterKey(ConsoleKey.DownArrow);
-            _keyControl.RegisterKey(ConsoleKey.RightArrow);
-            _keyControl.RegisterKey(ConsoleKey.LeftArrow);
-            _keyControl.RegisterKey(ConsoleKey.Escape);
-
-            _ui.PrintBoard();
-
             for (int i = 0; i < boardSize; i++)
             {
                 for (int j = 0; j < boardSize; j++)
@@ -28,45 +16,60 @@
                     _gameBoard[i, j] = 0;
                 }
             }
-
-            AddTile();
-            AddTile();
         }
 
-        public void Update()
+        public void Update(KeyControl keyControl)
         {
-            _keyControl.Update();
-
             bool moved = false;
 
-            if(_keyControl.IsKeyPressed(ConsoleKey.UpArrow))
+            if (keyControl.IsKeyPressed(ConsoleKey.UpArrow))
             {
                 moved = MoveUp();
+
+                if (!moved)
+                {
+                    Beep.Play();
+                }
             }
 
-            if (_keyControl.IsKeyPressed(ConsoleKey.DownArrow))
+            if (keyControl.IsKeyPressed(ConsoleKey.DownArrow))
             {
                 moved = MoveDown();
+
+                if (!moved)
+                {
+                    Beep.Play();
+                }
             }
 
-            if (_keyControl.IsKeyPressed(ConsoleKey.LeftArrow))
+            if (keyControl.IsKeyPressed(ConsoleKey.LeftArrow))
             {
                 moved = MoveLeft();
+
+                if (!moved)
+                {
+                    Beep.Play();
+                }
             }
 
-            if (_keyControl.IsKeyPressed(ConsoleKey.RightArrow))
+            if (keyControl.IsKeyPressed(ConsoleKey.RightArrow))
             {
                 moved = MoveRight();
+
+                if (!moved)
+                {
+                    Beep.Play();
+                }
             }
 
-            if(moved)
+            if (moved)
             {
+                Beep.Play(Tone.Gsharp, Duration.SIXTEENTH);
                 AddTile();
-                Console.Beep();
             }
         }
 
-        public void Rander()
+        public void Rander(UI ui)
         {
             for (int i = 0; i < boardSize; i++)
             {
@@ -74,17 +77,17 @@
                 {
                     if (_gameBoard[i, j] != 0)
                     {
-                        _ui.PrintTile(i, j, _gameBoard[i, j]);
+                        ui.PrintTile(i, j, _gameBoard[i, j]);
                     }
                     else
                     {
-                        _ui.ClearTile(i, j);
+                        ui.ClearTile(i, j);
                     }
                 }
             }
         }
 
-        private bool AddTile()
+        public bool AddTile()
         {
             if (ContainZero())
             {
@@ -104,19 +107,7 @@
             return false;
         }
 
-        private bool ContainZero()
-        {
-            foreach (int value in _gameBoard)
-            {
-                if (value == 0)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private bool CheckDeafed()
+        public bool CheckDeafed()
         {
             if (ContainZero())
             {
@@ -148,6 +139,18 @@
             }
 
             return true;
+        }
+
+        private bool ContainZero()
+        {
+            foreach (int value in _gameBoard)
+            {
+                if (value == 0)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private bool MoveUp()
