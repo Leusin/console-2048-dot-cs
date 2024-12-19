@@ -3,11 +3,8 @@
 var game = new Game();
 
 game.InitGame();
-game.Rander();
 
-Console.CursorVisible = false; // 커서를 숨깁니다
-
-while (true)
+while (game.run)
 {
     game.Update();
     game.Rander();

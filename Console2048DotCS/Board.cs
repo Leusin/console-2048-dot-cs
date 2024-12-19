@@ -1,10 +1,22 @@
-﻿namespace Console2048DotCS
+﻿using System;
+using System.Drawing;
+using System.Security.Cryptography;
+using static System.Formats.Asn1.AsnWriter;
+
+namespace Console2048DotCS
 {
     public class Board
     {
+        public enum Move
+        {
+            NONE, UP, DOWN, LEFT, RIGHT
+        }
+
+        public ulong playerScore;
+        public long moveScore;
+
         public static int boardSize = 4;
         private int[,] _gameBoard = new int[boardSize, boardSize];
-
         private Random _rand = new Random();
 
         public void InitBoard()
@@ -20,56 +32,55 @@
 
         public void Update(KeyControl keyControl)
         {
-            bool moved = false;
+            int score = 0;
 
             if (keyControl.IsKeyPressed(ConsoleKey.UpArrow))
             {
-                moved = MoveUp();
+                score = MoveUp();
+            }
+            else if (keyControl.IsKeyPressed(ConsoleKey.DownArrow))
+            {
+                score = MoveDown();
+            }
+            else if (keyControl.IsKeyPressed(ConsoleKey.LeftArrow))
+            {
+                score = MoveLeft();
+            }
+            else if (keyControl.IsKeyPressed(ConsoleKey.RightArrow))
+            {
+                score = MoveRight();
+            }
+            else if (keyControl.IsKeyPressed(ConsoleKey.F1))
+            {
+                SetDefeatConditionForDebug();
+            }
 
-                if (!moved)
+            if (score != 0)
+            {
+                moveScore = score;
+
+                if (playerScore == 0 && moveScore == -1)
+                {
+                    playerScore = 0;
+                }
+                else
+                {
+                    playerScore += (ulong)moveScore;
+                }
+
+                if (score > 0)
+                {
+                    Beep.Play(Tone.Gsharp, Duration.SIXTEENTH);
+                    AddTile();
+                }
+                else if (score < 0)
                 {
                     Beep.Play();
                 }
-            }
-
-            if (keyControl.IsKeyPressed(ConsoleKey.DownArrow))
-            {
-                moved = MoveDown();
-
-                if (!moved)
-                {
-                    Beep.Play();
-                }
-            }
-
-            if (keyControl.IsKeyPressed(ConsoleKey.LeftArrow))
-            {
-                moved = MoveLeft();
-
-                if (!moved)
-                {
-                    Beep.Play();
-                }
-            }
-
-            if (keyControl.IsKeyPressed(ConsoleKey.RightArrow))
-            {
-                moved = MoveRight();
-
-                if (!moved)
-                {
-                    Beep.Play();
-                }
-            }
-
-            if (moved)
-            {
-                Beep.Play(Tone.Gsharp, Duration.SIXTEENTH);
-                AddTile();
             }
         }
 
-        public void Rander(UI ui)
+        public void Render(UI ui)
         {
             for (int i = 0; i < boardSize; i++)
             {
@@ -85,6 +96,8 @@
                     }
                 }
             }
+
+            ui.PrintScores(18446744073709551615, playerScore, moveScore);
         }
 
         public bool AddTile()
@@ -141,6 +154,44 @@
             return true;
         }
 
+        private void SetDefeatConditionForDebug()
+        {
+            Random random = new Random();
+            int[] possibleNumbers = { 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048 };
+
+            for (int i = 0; i < boardSize; i++)
+            {
+                for (int j = 0; j < boardSize; j++)
+                {
+                    int number;
+                    do
+                    {
+                        number = possibleNumbers[random.Next(possibleNumbers.Length)];
+                    }
+                    while (!IsPlacementValid(_gameBoard, i, j, number));
+
+                    _gameBoard[i, j] = number;
+                }
+            }
+        }
+
+        private bool IsPlacementValid(int[,] grid, int row, int col, int number)
+        {
+            // 좌우로 이웃하는 타일 검사
+            if (col > 0 && grid[row, col - 1] == number)
+            {
+                return false;
+            }
+
+            // 위 아래로 이웃하는 타일 검사
+            if (row > 0 && grid[row - 1, col] == number)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         private bool ContainZero()
         {
             foreach (int value in _gameBoard)
@@ -153,9 +204,9 @@
             return false;
         }
 
-        private bool MoveUp()
+        private int MoveUp()
         {
-            bool moved = false;
+            int score = -1;
 
             for (int j = 0; j < boardSize; j++)
             {
@@ -170,25 +221,30 @@
                             _gameBoard[rowIndex - 1, j] = _gameBoard[rowIndex, j];
                             _gameBoard[rowIndex, j] = 0;
                             rowIndex--;
-                            moved = true;
+
+                            if (score == -1)
+                            {
+                                score = 1;
+                            }
                         }
 
                         if (rowIndex > 0 && _gameBoard[rowIndex - 1, j] == _gameBoard[rowIndex, j])
                         {
                             _gameBoard[rowIndex - 1, j] *= 2;
                             _gameBoard[rowIndex, j] = 0;
-                            moved = true;
+
+                            score += _gameBoard[rowIndex - 1, j];
                         }
                     }
                 }
             }
 
-            return moved;
+            return score;
         }
 
-        private bool MoveDown()
+        private int MoveDown()
         {
-            bool moved = false;
+            int score = -1;
 
             for (int j = 0; j < boardSize; j++)
             {
@@ -203,24 +259,29 @@
                             _gameBoard[rowIndex + 1, j] = _gameBoard[rowIndex, j];
                             _gameBoard[rowIndex, j] = 0;
                             rowIndex++;
-                            moved = true;
+
+                            if (score == -1)
+                            {
+                                score = 1;
+                            }
                         }
 
                         if (rowIndex < boardSize - 1 && _gameBoard[rowIndex + 1, j] == _gameBoard[rowIndex, j])
                         {
                             _gameBoard[rowIndex + 1, j] *= 2;
                             _gameBoard[rowIndex, j] = 0;
-                            moved = true;
+
+                            score += _gameBoard[rowIndex + 1, j];
                         }
                     }
                 }
             }
-            return moved;
+            return score;
         }
 
-        private bool MoveLeft()
+        private int MoveLeft()
         {
-            bool moved = false;
+            int score = -1;
 
             for (int i = 0; i < boardSize; i++)
             {
@@ -235,25 +296,29 @@
                             _gameBoard[i, columnIndex - 1] = _gameBoard[i, columnIndex];
                             _gameBoard[i, columnIndex] = 0;
                             columnIndex--;
-                            moved = true;
+                            if (score == -1)
+                            {
+                                score = 1;
+                            }
                         }
 
                         if (columnIndex > 0 && _gameBoard[i, columnIndex - 1] == _gameBoard[i, columnIndex])
                         {
                             _gameBoard[i, columnIndex - 1] *= 2;
                             _gameBoard[i, columnIndex] = 0;
-                            moved = true;
+
+                            score += _gameBoard[columnIndex - 1, j];
                         }
                     }
                 }
             }
 
-            return moved;
+            return score;
         }
 
-        private bool MoveRight()
+        private int MoveRight()
         {
-            bool moved = false;
+            int score = -1;
 
             for (int i = 0; i < boardSize; i++)
             {
@@ -268,20 +333,24 @@
                             _gameBoard[i, columnIndex + 1] = _gameBoard[i, columnIndex];
                             _gameBoard[i, columnIndex] = 0;
                             columnIndex++;
-                            moved = true;
+                            if (score == -1)
+                            {
+                                score = 1;
+                            }
                         }
 
                         if (columnIndex < boardSize - 1 && _gameBoard[i, columnIndex + 1] == _gameBoard[i, columnIndex])
                         {
                             _gameBoard[i, columnIndex + 1] *= 2;
                             _gameBoard[i, columnIndex] = 0;
-                            moved = true;
+
+                            score += _gameBoard[i, columnIndex + 1];
                         }
                     }
                 }
             }
 
-            return moved;
+            return score;
         }
     }
 }

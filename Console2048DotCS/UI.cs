@@ -1,6 +1,4 @@
-﻿using System;
-using System.Drawing;
-using static System.Net.Mime.MediaTypeNames;
+﻿using static Console2048DotCS.Board;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Console2048DotCS
@@ -15,7 +13,7 @@ namespace Console2048DotCS
             ScreenPrint(indent, 1, "  /  __ \\/  //_____  / /  | /  /_  _  __/ /_    \n");
             ScreenPrint(indent, 2, " /  / / /  /___--_/_/ /   |/  /_/ // /_/  _/____.____");
             ScreenPrint(indent, 3, "/  /_/ /  //________// /| |  _/________/_// ___//  __/");
-            ScreenPrint(indent, 4, "\\_____/  / / ____ `//_/ |_| / /======  | / /___._` \\");
+            ScreenPrint(indent, 4, "\\_____/  / / ____ `//_/ |_| / /======  |_/ /___._` \\");
             ScreenPrint(indent, 5, "     /__/  \\______/     /__/  \\__======(_)____/_____/");
 
             ScreenPrint(indent, 7, "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
@@ -40,6 +38,17 @@ namespace Console2048DotCS
             ScreenPrint(indent, 26, "┃                                                  ┃");
             ScreenPrint(indent, 27, "┃                                                  ┃");
             ScreenPrint(indent, 28, "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+
+            ScreenPrint(13, 1, "  만든 사람: 김주영");
+            ScreenPrint(13, 2, "-------------------");
+            ScreenPrint(13, 3, "         2024-12-19");
+            ScreenPrint(13, 4, "           (v1.0.0)");
+
+            ScreenPrint(94, 1, "조작법");
+            ScreenPrint(94, 2, "-------------------");
+            ScreenPrint(94, 3, "타일 이동 : ↑ ↓ ← →");
+            ScreenPrint(94, 4, "재시작 : Enter");
+            ScreenPrint(94, 5, "종료 : Escape");
         }
 
         public void PrintTile(int row, int col, int number)
@@ -75,6 +84,37 @@ namespace Console2048DotCS
             ScreenPrint(col * 12 + (indent + 2), row * 5 + 10, "            ");
             ScreenPrint(col * 12 + (indent + 2), row * 5 + 11, "            ");
             ScreenPrint(col * 12 + (indent + 2), row * 5 + 12, "            ");
+        }
+
+        public void PrintScores(ulong best, ulong current, long move)
+        {
+            int totalWidth = 22; // 한 줄의 최대 출력 너비
+
+            //string bestString = best.ToString();
+            //ScreenPrint(8, 3, "┌----------------------┐");
+            //ScreenPrint(8, 4, "│ 최고 점수:           │ ");
+            //ScreenPrint(8, 5, $"│{bestString.PadLeft((totalWidth - bestString.Length) / 2 + bestString.Length).PadRight(totalWidth)}│ ");
+            //ScreenPrint(8, 6, "└----------------------┘");
+
+            string currentString = current.ToString();
+            ScreenPrint(8, 7, "┌----------------------┐");
+            ScreenPrint(8, 8, "│ 현재 점수:           │ ");
+            ScreenPrint(8, 9, $"│{currentString.PadLeft((totalWidth - currentString.Length) / 2 + currentString.Length).PadRight(totalWidth)}│ ");
+            ScreenPrint(8, 10, "└----------------------┘");
+
+
+            string moveString = move.ToString();
+            ScreenPrint(94, 7, "┌----------------------┐");
+            ScreenPrint(94, 8, "│ 이동 점수:           │ ");
+            ScreenPrint(94, 9, $"│{moveString.PadLeft((totalWidth - moveString.Length) / 2 + moveString.Length).PadRight(totalWidth)}│ ");
+            ScreenPrint(94, 10, "└----------------------┘");
+        }
+
+        public void PrintGameOver()
+        {
+            ScreenPrint(48, 16, " ┏━━━━━━━━━━━━━━━━━━━━━━━━━┓ ");
+            ScreenPrint(48, 17, " ┃  = G A M E  O V E R =   ┃ ");
+            ScreenPrint(48, 18, " ┗━━━━━━━━━━━━━━━━━━━━━━━━━┛ ");
         }
 
         private void ScreenPrint(int x, int y, string str)//x, y좌표에 string을 출력한다 
