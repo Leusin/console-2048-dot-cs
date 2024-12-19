@@ -16,7 +16,7 @@ C# 콘솔 애플리케이션으로 구현된 간단한 2048 게임입니다.
 1. 레포지토리를 클론합니다:
     
     ```bash
-    [git clone https://github.com/<your-username>/game-2048-dot-cs.git](https://github.com/Leusin/console-2048-dot-cs.git)
+    [git clone https://github.com/Leusin/game-2048-dot-cs.git](https://github.com/Leusin/console-2048-dot-cs.git)
     ```
     
 2. 선호하는 C# IDE(예: Visual Studio 또는 JetBrains Rider)로 프로젝트를 엽니다.
@@ -59,7 +59,7 @@ Hint System: Get suggestions for the best possible move to improve your score.
 Installation
 1. Clone the repository:
     ```bash
-    [git clone https://github.com/<your-username>/game-2048-dot-cs.git](https://github.com/Leusin/console-2048-dot-cs.git)
+    [git clone https://github.com/Leusin/game-2048-dot-cs.git](https://github.com/Leusin/console-2048-dot-cs.git)
     ``` 
 
 2. Open the project with your favourite C# IDE (for example, Visual Studio or JetBrains Rider).
