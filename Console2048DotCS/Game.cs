@@ -1,29 +1,26 @@
-﻿
-using System.Text;
-
-namespace Console2048DotCS
+﻿namespace Console2048DotCS
 {
     public class Game
     {
         public enum State
         {
-            Init,
-            OnPlay,
-            GameOver
+            START,
+            PLAY,
+            GAME_OVER
         }
 
         public bool run = true;
 
-        private State _state = State.Init;
+        private State _state = State.START;
 
         private UI _ui = new UI();
         private Board _board = new Board();
         private KeyControl _keyControl = new KeyControl();
-
+        private ScoreSaveLoader _scoreSaveLoader = new ScoreSaveLoader();
 
         public void InitGame()
         {
-            _state = State.Init;
+            _state = State.START;
 
             Console.CursorVisible = false; // 커서를 숨깁니다
 
@@ -42,7 +39,17 @@ namespace Console2048DotCS
             _board.AddTile();
             _board.AddTile();
 
-            _state = State.OnPlay;
+            _scoreSaveLoader.LoadScore();
+            for (int i = 0; i < _scoreSaveLoader.rankScore.Length; i++)
+            {
+                var (score, date) = _scoreSaveLoader.rankScore[i];
+                Console.SetCursorPosition(10, 9 + i * 2);
+                Console.WriteLine(score);
+                Console.SetCursorPosition(8, 10 + i * 2);
+                Console.WriteLine($"({date})");
+            }
+
+            _state = State.PLAY;
         }
 
         public void Update()
@@ -59,11 +66,13 @@ namespace Console2048DotCS
 
             _keyControl.Update();
 
-            if (_state == State.OnPlay)
+            if (_state == State.PLAY)
             {
                 if (_board.CheckDeafed() == true)
                 {
-                    _state = State.GameOver;
+                    _state = State.GAME_OVER;
+
+                    _scoreSaveLoader.SaveScore(_board.playerScore);
 
                     Beep.Play();
                     Beep.Play();
@@ -76,13 +85,15 @@ namespace Console2048DotCS
 
         internal void Rander()
         {
-            if (_state == State.OnPlay)
+            if (_state == State.PLAY)
             {
                 _board.Render(_ui);
+                _ui.PrintHit(_board.hit);
             }
-            else if (_state == State.GameOver)
+            else if (_state == State.GAME_OVER)
             {
                 _ui.PrintGameOver();
+                _ui.PrintHit(Board.Move.NONE);
             }
         }
     }

@@ -9,12 +9,12 @@ namespace Console2048DotCS
 
         public void PrintBoard()
         {
-            ScreenPrint(indent, 0, "   _____  ___ ________  __   ______________     \n");
-            ScreenPrint(indent, 1, "  /  __ \\/  //_____  / /  | /  /_  _  __/ /_    \n");
-            ScreenPrint(indent, 2, " /  / / /  /___--_/_/ /   |/  /_/ // /_/  _/____.____");
-            ScreenPrint(indent, 3, "/  /_/ /  //________// /| |  _/________/_// ___//  __/");
-            ScreenPrint(indent, 4, "\\_____/  / / ____ `//_/ |_| / /======  |_/ /___._` \\");
-            ScreenPrint(indent, 5, "     /__/  \\______/     /__/  \\__======(_)____/_____/");
+            ScreenPrint(indent - 1, 0, "   _____  ___ ________  __   ______________     \n");
+            ScreenPrint(indent - 1, 1, "  /  __ \\/  //_____  / /  | /  /_  _  __/ /_    \n");
+            ScreenPrint(indent - 1, 2, " /  / / /  /___--_/_/ /   |/  /_/ // /_/  _/____.____");
+            ScreenPrint(indent - 1, 3, "/  /_/ /  //________// /| |  _/________/_// ___//  __/");
+            ScreenPrint(indent - 1, 4, "\\_____/  / / ____ `//_/ |_| / /======  |_/ /___._` \\");
+            ScreenPrint(indent - 1, 5, "     /__/  \\______/     /__/  \\__======(_)____/_____/");
 
             ScreenPrint(indent, 7, "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
             ScreenPrint(indent, 8, "┃                                                  ┃");
@@ -44,11 +44,41 @@ namespace Console2048DotCS
             ScreenPrint(13, 3, "         2024-12-19");
             ScreenPrint(13, 4, "           (v1.0.0)");
 
-            ScreenPrint(94, 1, "조작법");
-            ScreenPrint(94, 2, "-------------------");
-            ScreenPrint(94, 3, "타일 이동 : ↑ ↓ ← →");
-            ScreenPrint(94, 4, "재시작 : Enter");
-            ScreenPrint(94, 5, "종료 : Escape");
+            ScreenPrint(5, 7, "}----- R A N K I N G -----{");
+            ScreenPrint(6, 8, "|                       |");
+            ScreenPrint(6, 9, "│ 1.                    │");
+            ScreenPrint(6, 10, "│                       │");
+            ScreenPrint(6, 11, "│ 2.                    │");
+            ScreenPrint(6, 12, "│                       │");
+            ScreenPrint(6, 13, "│ 3.                    │");
+            ScreenPrint(6, 14, "│                       │");
+            ScreenPrint(6, 15, "│ 4.                    │");
+            ScreenPrint(6, 16, "│                       │");
+            ScreenPrint(6, 17, "│ 5.                    │");
+            ScreenPrint(6, 18, "│                       │");
+            ScreenPrint(6, 19, "│ 6.                    │");
+            ScreenPrint(6, 20, "│                       │");
+            ScreenPrint(6, 21, "│ 7.                    │");
+            ScreenPrint(6, 22, "│                       │");
+            ScreenPrint(6, 23, "│ 8.                    │");
+            ScreenPrint(6, 24, "│                       │");
+            ScreenPrint(6, 25, "│ 9.                    │");
+            ScreenPrint(6, 26, "|                       |");
+            ScreenPrint(5, 27, "}========================={");
+
+            ScreenPrint(92, 1, "조작법");
+            ScreenPrint(92, 2, "-------------------");
+            ScreenPrint(92, 3, "타일 이동 : ↑ ↓ ← →");
+            ScreenPrint(92, 4, "재시작 : Enter");
+            ScreenPrint(92, 5, "종료 : Escape");
+
+            ScreenPrint(92, 8, "┌ --→ H I N T ←-- ┐");
+            ScreenPrint(92, 9, "│  +-----------+  │");
+            ScreenPrint(92, 10, "│  |     △     |  │");
+            ScreenPrint(92, 11, "│  |  ◁  ○  ▷  |  │");
+            ScreenPrint(92, 12, "│  |     ▽     |  │");
+            ScreenPrint(92, 13, "│  +-----------+  │");
+            ScreenPrint(92, 14, "└ --------------- ┘");
         }
 
         public void PrintTile(int row, int col, int number)
@@ -86,28 +116,91 @@ namespace Console2048DotCS
             ScreenPrint(col * 12 + (indent + 2), row * 5 + 12, "            ");
         }
 
+        public void PrintHit(Move hint)
+        {
+            switch (hint)
+            {
+                case Move.NONE:
+                    {
+                        ScreenPrint(92, 8, "┌ --→ H I N T ←-- ┐");
+                        ScreenPrint(92, 9, "│  +-----------+  │");
+                        ScreenPrint(92, 10, "│  |     △     |  │");
+                        ScreenPrint(92, 11, "│  |  ◁  ○  ▷  |  │");
+                        ScreenPrint(92, 12, "│  |     ▽     |  │");
+                        ScreenPrint(92, 13, "│  +-----------+  │");
+                        ScreenPrint(92, 14, "└ --------------- ┘");
+                        break;
+                    }
+                case Move.LEFT:
+                    {
+                        ScreenPrint(92, 8, "┌ --→ H I N T ←-- ┐");
+                        ScreenPrint(92, 9, "│  +-----------+  │");
+                        ScreenPrint(92, 10, "│  |     △     |  │");
+                        ScreenPrint(92, 11, "│  |  ◀  ←  ▷  |  │");
+                        ScreenPrint(92, 12, "│  |     ▽     |  │");
+                        ScreenPrint(92, 13, "│  +-----------+  │");
+                        ScreenPrint(92, 14, "└ --------------- ┘");
+                        break;
+                    }
+                case Move.RIGHT:
+                    {
+                        ScreenPrint(92, 8, "┌ --→ H I N T ←-- ┐");
+                        ScreenPrint(92, 9, "│  +-----------+  │");
+                        ScreenPrint(92, 10, "│  |     △     |  │");
+                        ScreenPrint(92, 11, "│  |  ◁  →  ▶  |  │");
+                        ScreenPrint(92, 12, "│  |     ▽     |  │");
+                        ScreenPrint(92, 13, "│  +-----------+  │");
+                        ScreenPrint(92, 14, "└ --------------- ┘");
+                        break;
+                    }
+                case Move.UP:
+                    {
+                        ScreenPrint(92, 8, "┌ --→ H I N T ←-- ┐");
+                        ScreenPrint(92, 9, "│  +-----------+  │");
+                        ScreenPrint(92, 10, "│  |     ▲     |  │");
+                        ScreenPrint(92, 11, "│  |  ◁  ↑  ▷  |  │");
+                        ScreenPrint(92, 12, "│  |     ▽     |  │");
+                        ScreenPrint(92, 13, "│  +-----------+  │");
+                        ScreenPrint(92, 14, "└ --------------- ┘");
+                        break;
+                    }
+                case Move.DOWN:
+                    {
+                        ScreenPrint(92, 8, "┌ --→ H I N T ←-- ┐");
+                        ScreenPrint(92, 9, "│  +-----------+  │");
+                        ScreenPrint(92, 10, "│  |     △     |  │");
+                        ScreenPrint(92, 11, "│  |  ◁  ↓  ▷  |  │");
+                        ScreenPrint(92, 12, "│  |     ▼     |  │");
+                        ScreenPrint(92, 13, "│  +-----------+  │");
+                        ScreenPrint(92, 14, "└ --------------- ┘");
+                        break;
+                    }
+            }
+        }
+
+
         public void PrintScores(ulong best, ulong current, long move)
         {
             int totalWidth = 22; // 한 줄의 최대 출력 너비
 
-            //string bestString = best.ToString();
-            //ScreenPrint(8, 3, "┌----------------------┐");
-            //ScreenPrint(8, 4, "│ 최고 점수:           │ ");
-            //ScreenPrint(8, 5, $"│{bestString.PadLeft((totalWidth - bestString.Length) / 2 + bestString.Length).PadRight(totalWidth)}│ ");
-            //ScreenPrint(8, 6, "└----------------------┘");
+            string bestString = best.ToString();
+            ScreenPrint(92, 16, "┌----------------------┐");
+            ScreenPrint(92, 17, "│ 최고 점수:           │ ");
+            ScreenPrint(92, 18, $"│{bestString.PadLeft((totalWidth - bestString.Length) / 2 + bestString.Length).PadRight(totalWidth)}│ ");
+            ScreenPrint(92, 19, "└----------------------┘");
 
             string currentString = current.ToString();
-            ScreenPrint(8, 7, "┌----------------------┐");
-            ScreenPrint(8, 8, "│ 현재 점수:           │ ");
-            ScreenPrint(8, 9, $"│{currentString.PadLeft((totalWidth - currentString.Length) / 2 + currentString.Length).PadRight(totalWidth)}│ ");
-            ScreenPrint(8, 10, "└----------------------┘");
+            ScreenPrint(92, 20, "┌----------------------┐");
+            ScreenPrint(92, 21, "│ 현재 점수:           │ ");
+            ScreenPrint(92, 22, $"│{currentString.PadLeft((totalWidth - currentString.Length) / 2 + currentString.Length).PadRight(totalWidth)}│ ");
+            ScreenPrint(92, 23, "└----------------------┘");
 
 
             string moveString = move.ToString();
-            ScreenPrint(94, 7, "┌----------------------┐");
-            ScreenPrint(94, 8, "│ 이동 점수:           │ ");
-            ScreenPrint(94, 9, $"│{moveString.PadLeft((totalWidth - moveString.Length) / 2 + moveString.Length).PadRight(totalWidth)}│ ");
-            ScreenPrint(94, 10, "└----------------------┘");
+            ScreenPrint(92, 24, "┌----------------------┐");
+            ScreenPrint(92, 25, "│ 이동 점수:           │ ");
+            ScreenPrint(92, 26, $"│{moveString.PadLeft((totalWidth - moveString.Length) / 2 + moveString.Length).PadRight(totalWidth)}│ ");
+            ScreenPrint(92, 27, "└----------------------┘");
         }
 
         public void PrintGameOver()

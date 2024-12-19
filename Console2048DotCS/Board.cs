@@ -1,23 +1,30 @@
-﻿using System;
-using System.Drawing;
-using System.Security.Cryptography;
-using static System.Formats.Asn1.AsnWriter;
-
-namespace Console2048DotCS
+﻿namespace Console2048DotCS
 {
-    public class Board
+    public class Board : ICloneable
     {
         public enum Move
         {
-            NONE, UP, DOWN, LEFT, RIGHT
+            NONE,
+            UP,
+            DOWN,
+            LEFT,
+            RIGHT,
         }
 
         public ulong playerScore;
         public long moveScore;
-
         public static int boardSize = 4;
+        public Move hit;
+
         private int[,] _gameBoard = new int[boardSize, boardSize];
         private Random _rand = new Random();
+
+        public object Clone()
+        {
+            Board clone = new Board();
+            clone._gameBoard = (int[,])this._gameBoard.Clone(); // 깊은 복사 수행
+            return clone;
+        }
 
         public void InitBoard()
         {
@@ -58,6 +65,7 @@ namespace Console2048DotCS
             if (score != 0)
             {
                 moveScore = score;
+                hit = SarchNextHint();
 
                 if (playerScore == 0 && moveScore == -1)
                 {
@@ -152,6 +160,34 @@ namespace Console2048DotCS
             }
 
             return true;
+        }
+
+        private Dictionary<Move, int> _moveScores = new Dictionary<Move, int>();
+        public Move SarchNextHint()
+        {
+
+            Board tempBoard = (Board)this.Clone();
+            _moveScores[Move.UP] = tempBoard.MoveUp();
+
+            tempBoard = (Board)this.Clone();
+            _moveScores[Move.DOWN] = tempBoard.MoveDown();
+
+            tempBoard = (Board)this.Clone();
+            _moveScores[Move.LEFT] = tempBoard.MoveLeft();
+
+            tempBoard = (Board)this.Clone();
+            _moveScores[Move.RIGHT] = tempBoard.MoveRight();
+
+            // 모든 점수가 -1이면 NONE 반환
+            if (_moveScores.All(m => m.Value < 0))
+            {
+                return Move.NONE;
+            }
+
+            // 가장 높은 점수를 가진 방향 반환
+            Move bestMove = _moveScores.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
+
+            return bestMove;
         }
 
         private void SetDefeatConditionForDebug()
