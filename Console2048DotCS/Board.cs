@@ -104,8 +104,6 @@
                     }
                 }
             }
-
-            ui.PrintScores(18446744073709551615, playerScore, moveScore);
         }
 
         public bool AddTile()

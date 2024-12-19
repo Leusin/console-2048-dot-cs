@@ -88,6 +88,7 @@
             if (_state == State.PLAY)
             {
                 _board.Render(_ui);
+                _ui.PrintScores(_scoreSaveLoader.rankScore[0].score, _board.playerScore, _board.moveScore);
                 _ui.PrintHit(_board.hit);
             }
             else if (_state == State.GAME_OVER)
